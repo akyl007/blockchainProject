@@ -60,8 +60,7 @@ class Blockchain:
                 return False
         return True
 
-    # Step 5: Terminal interface
-    def main():
+def main():
         blockchain = Blockchain()
 
         while True:
@@ -111,5 +110,6 @@ class Blockchain:
             else:
                 print("Invalid choice. Please try again.")
 
-    if name == "main":
-        main()
+
+if __name__ == "__main__":
+    main()
