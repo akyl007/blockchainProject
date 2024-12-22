@@ -1,5 +1,6 @@
 import hashlib
 import time
+import json
 
 
 def hash(text):
@@ -40,3 +41,21 @@ class Block:
             'merkle_root': self.merkle_root,
         }, sort_keys=True)
         return hash(block_content)
+
+class Blockchain:
+    def init(self):
+        genesis_block = Block("0", ["Genesis Transaction"])
+        self.chain = [genesis_block]
+
+    def add_block(self, transactions):
+        previous_hash = self.chain[-1].hash
+        new_block = Block(previous_hash, transactions)
+        self.chain.append(new_block)
+
+    def validate_blockchain(self):
+        for i in range(1, len(self.chain)):
+            current = self.chain[i]
+            previous = self.chain[i - 1]
+            if current.previous_hash != previous.hash:
+                return False
+        return True
