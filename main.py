@@ -59,3 +59,57 @@ class Blockchain:
             if current.previous_hash != previous.hash:
                 return False
         return True
+
+    # Step 5: Terminal interface
+    def main():
+        blockchain = Blockchain()
+
+        while True:
+            print("\nBlockchain Console:")
+            print("1. Add Transactions")
+            print("2. Mine Block")
+            print("3. Validate Blockchain")
+            print("4. Display Blockchain")
+            print("5. Exit")
+
+            choice = input("Enter your choice: ")
+
+            if choice == '1':
+                transactions = []
+                print("Enter 10 transactions in the format 'Sender,Receiver,Amount':")
+                for _ in range(10):
+                    transaction = input("Transaction: ")
+                    transactions.append(transaction)
+
+                blockchain.add_block(transactions)
+                print("Transactions added and block mined!")
+
+            elif choice == '2':
+                print("Mining block...")
+                blockchain.add_block([])
+                print("Block mined successfully!")
+
+            elif choice == '3':
+                if blockchain.validate_blockchain():
+                    print("Blockchain is valid.")
+                else:
+                    print("Blockchain is invalid!")
+
+            elif choice == '4':
+                for i, block in enumerate(blockchain.chain):
+                    print(f"\nBlock {i}:")
+                    print(f"Timestamp: {block.timestamp}")
+                    print(f"Previous Hash: {block.previous_hash}")
+                    print(f"Merkle Root: {block.merkle_root}")
+                    print(f"Hash: {block.hash}")
+                    print(f"Transactions: {block.transactions}")
+
+            elif choice == '5':
+                print("Exiting...")
+                break
+
+            else:
+                print("Invalid choice. Please try again.")
+
+    if name == "main":
+        main()
