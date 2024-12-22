@@ -1,4 +1,5 @@
 import hashlib
+import time
 
 
 def hash(text):
@@ -23,3 +24,19 @@ class MerkleTree:
                 next_level.append(hash(combined))
             current_level = next_level
         return current_level[0] if current_level else None
+
+class Block:
+    def init(self, previous_hash, transactions):
+        self.timestamp = time.time()
+        self.transactions = transactions
+        self.previous_hash = previous_hash
+        self.merkle_root = MerkleTree(transactions).root
+        self.hash = self.mine_block()
+
+    def mine_block(self):
+        block_content = json.dumps({
+            'previous_hash': self.previous_hash,
+            'timestamp': self.timestamp,
+            'merkle_root': self.merkle_root,
+        }, sort_keys=True)
+        return hash(block_content)
