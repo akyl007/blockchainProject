@@ -10,7 +10,7 @@ def hash(text):
 
 
 class MerkleTree:
-    def init(self, transactions):
+    def __init__(self, transactions):
         self.transactions = transactions
         self.root = self.build_merkle_root(transactions)
 
@@ -27,13 +27,12 @@ class MerkleTree:
         return current_level[0] if current_level else None
 
 class Block:
-    def init(self, previous_hash, transactions):
+    def __init__(self, previous_hash, transactions):
         self.timestamp = time.time()
         self.transactions = transactions
         self.previous_hash = previous_hash
         self.merkle_root = MerkleTree(transactions).root
         self.hash = self.mine_block()
-
     def mine_block(self):
         block_content = json.dumps({
             'previous_hash': self.previous_hash,
@@ -43,7 +42,7 @@ class Block:
         return hash(block_content)
 
 class Blockchain:
-    def init(self):
+    def __init__(self):
         genesis_block = Block("0", ["Genesis Transaction"])
         self.chain = [genesis_block]
 
@@ -60,12 +59,13 @@ class Blockchain:
                 return False
         return True
 
+
 def main():
         blockchain = Blockchain()
 
         while True:
             print("\nBlockchain Console:")
-            print("1. Add Transactions")
+            print("1. Add Transaction")
             print("2. Mine Block")
             print("3. Validate Blockchain")
             print("4. Display Blockchain")
@@ -74,14 +74,9 @@ def main():
             choice = input("Enter your choice: ")
 
             if choice == '1':
-                transactions = []
-                print("Enter 10 transactions in the format 'Sender,Receiver,Amount':")
-                for _ in range(10):
-                    transaction = input("Transaction: ")
-                    transactions.append(transaction)
-
-                blockchain.add_block(transactions)
-                print("Transactions added and block mined!")
+                transaction = input("Enter transaction in the format 'Sender,Receiver,Amount': ")
+                blockchain.add_block([transaction])
+                print("Transaction added and block mined!")
 
             elif choice == '2':
                 print("Mining block...")
